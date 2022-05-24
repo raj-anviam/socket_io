@@ -20,3 +20,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('send-message', function () {
     return true;
 });
+
+Broadcast::channel('private-channel', function () {
+    return true;
+});

@@ -2,6 +2,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const cors = require('cors');
+const Redis = require('redis');
 const io = require('socket.io')(http, {
   cors: {
       origin: "*",
@@ -14,6 +15,11 @@ const io = require('socket.io')(http, {
 
 app.use(cors());
 
+redis = new Redis;
+redis.subscribe('private-channel', function(channel, message) {
+  console.log(chennel);
+  console.log(message);
+})
 
 var users = [];
 
