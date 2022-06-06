@@ -21,12 +21,14 @@ class ChatController extends Controller
 
     public function sendMessage(Request $request) {
         $message = Message::create([
-            'message' => $request->message
+            'message' => $request->message,
+            'sender_id' => \Auth::user()->id,
+            'receiver_id' => $request->receiver_id
         ]);
 
-        $message->user()->attach(\Auth::user()->id, ['receiver_id' => $request->receiver_id]);
-
         $message = Message::with('user', 'receiver')->whereId($message->id)->first();
+
+        \App\Events\ReceiveMessage::dispatch($message);
         
         return \Response::json(['data' => $message]);
     }

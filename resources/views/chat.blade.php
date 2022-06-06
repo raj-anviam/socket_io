@@ -30,6 +30,9 @@
       <div class="chat col-md-8" >
         <div class="header">
           <p>{{ $receiver->name }} <br> <span class="user-status-{{ $user->id }}">offline</span></p>
+
+          <span class="user-typing-{{ $user->id }}"></span>
+          
           <hr>
         </div>
         <div class="messages">
@@ -59,14 +62,54 @@
         socket.emit('user_connected', user_id);
       });
 
+      socket.on('private-channel:App\\Events\\ReceiveMessage', function(message) {
+        console.log(message);
+      });
+
+      socket.on('userTyping', function(message) {
+        console.log(message);
+      });
+
       socket.on('updateUserStatus', function(data) {
         console.log(data);
         
         $.each(data, function(index, value) {
           if(value != null && value != 0)
             $(`.user-status-${index}`).html('online');
+          else
+            $(`.user-status-${index}`).html('offline');
         })
       })
+
+      // socket.on('updateUserStatus', function(data) {
+      //   console.log(data);
+      // })
+
+      // typing
+
+    var typing = false;
+    var timeout = undefined;
+
+    function timeoutFunction(){
+      typing = false;
+      socket.emit('userNoLongerTyping');
+    }
+
+    function onKeyDownNotEnter(){
+      if(typing == false) {
+        typing = true
+        socket.emit('userTyping');
+        timeout = setTimeout(timeoutFunction, 5000);
+      } else {
+        clearTimeout(timeout);
+        timeout = setTimeout(timeoutFunction, 5000);
+      }
+
+    }
+      
+    $('.text-message').on('input', onKeyDownNotEnter);
+
+    
     });
 
     $('.send-message').click(function() {
@@ -82,7 +125,11 @@
           console.log(data);
         }
       })
-    })
+    });
+
+    
+
+
     
     </script>
 

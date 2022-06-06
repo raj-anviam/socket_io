@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->text('message');
             $table->integer('type')->default(1)->comment('1 - text, 2 - file');
+            $table->foreignId('sender_id');
+            $table->foreignId('receiver_id');
             $table->timestamps();
         });
     }

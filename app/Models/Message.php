@@ -12,10 +12,10 @@ class Message extends Model
     protected $guarded = [];
 
     public function user() {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsTo(User::class, 'sender_id');
     }
     
     public function receiver() {
-        return $this->belongsToMany(User::class, 'message_user', 'message_id', 'receiver_id')->withTimestamps();
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 }
