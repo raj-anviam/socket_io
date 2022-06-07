@@ -9,8 +9,14 @@ use App\Models\Message;
 class ChatController extends Controller
 {
     public function index() {
-        $users = User::where('id', '!=', \Auth::user()->id)->get();
-        return view('welcome', compact('users'));
+        if(request()->expectsJson()) {
+
+            return \Auth::user();
+
+        }
+        $users = User::where('id', '!=', request()->user()->id)->get();
+        return view('home', compact('users'));
+        // return view('welcome', compact('users'));
     }
     
     public function conversation($userId) {

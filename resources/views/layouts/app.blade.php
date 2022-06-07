@@ -16,7 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"> </script>
-    <script src="{{ asset('js/app.js') }}"> </script>
+    {{-- <script src="{{ asset('js/app.js') }}"> </script> --}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -87,6 +87,8 @@
     </div>
     
     @stack('script')
+    
+    <script src="{{ mix('js/app.js') }}"></script>
     
 </body>
 </html>
