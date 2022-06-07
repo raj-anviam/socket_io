@@ -51,10 +51,10 @@
       });
 
       socket.on('updateUserStatus', function(data) {
-        console.log(data);
+        // console.log(data);
         
         $.each(data, function(index, value) {
-          console.log(index);
+          // console.log(index);
           if(value != null && value != 0)
             $(`.user-status-${index}`).html('online');
         })

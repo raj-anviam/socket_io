@@ -17,12 +17,16 @@ use App\Http\Controllers\ChatController;
 Route::group(['middleware' => 'auth'], function() {  
     Route::get('/', [ChatController::class, 'index']);
     Route::get('/chat/{id}', [ChatController::class, 'conversation'])->name('chat');
-    Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send-message');
+    // Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send-message');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth'], function() {  
+    Route::get('/home', [App\Http\Controllers\ChatController::class, 'index'])->name('home');
+    Route::get('/chat/{id}', [App\Http\Controllers\ChatController::class, 'conversation'])->name('chat');
+});
 
 Route::get('test', function() {
     \App\Events\SendMessage::dispatch('test');

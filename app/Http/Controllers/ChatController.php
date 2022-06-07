@@ -20,6 +20,9 @@ class ChatController extends Controller
     }
 
     public function sendMessage(Request $request) {
+
+        return \Auth::user();
+        
         $message = Message::create([
             'message' => $request->message,
             'sender_id' => \Auth::user()->id,
